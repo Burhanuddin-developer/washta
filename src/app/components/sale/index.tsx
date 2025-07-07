@@ -12,7 +12,7 @@ function SaleCard({ title, service, location, img }: { title: string; service: s
   // Split location into two lines at the first comma
   const [locLine1, locLine2] = location.split(/;(.+)/).filter(Boolean);
   return (
-    <div className="bg-white rounded-xl border border-blue-100 p-4 flex flex-col  min-w-full max-w-xs shadow-sm">
+    <div className="bg-white rounded-xl border p-4 border-blue-100  flex flex-col">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Image src={img} alt={title} width={40} height={40} className="rounded object-cover" />
@@ -39,8 +39,8 @@ function SaleCard({ title, service, location, img }: { title: string; service: s
 
 export default function SaleList() {
   return (
-    <div className="min-h-screen bg-[#f6f7ff] p-1 sm:p-2 flex flex-col">
-      <h1 className="text-2xl font-medium mb-2">Sales</h1>
+    <div className="min-h-screen bg-[#f6f7ff] flex flex-col">
+      <h1 className="text-2xl font-medium mb-2 ml-8">Sales</h1>
       <div className="bg-white rounded-2xl p-2 sm:p-4 border border-gray-200 " style={{ width: '75%' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {salesData.map((item) => (

@@ -30,8 +30,8 @@ const menu = [
   },
   { label: 'Send Notification', icon: <FaRegBell />, href: '/SendNotification' },
   { label: 'Sales', icon: <FaRegChartBar />, href: '/Sales' },
-  { label: 'Service Fee', icon: <FaRegMoneyBillAlt />, href: '/service-fee' },
-  { label: 'Promo Code', icon: <FaRegIdBadge />, href: '/promo-code' },
+  { label: 'Service Fee', icon: <FaRegMoneyBillAlt />, href: '/ServiceFee' },
+  { label: 'Promo Code', icon: <FaRegIdBadge />, href: '/PromoCode' },
 ];
 
 const bottomMenu = [
