@@ -1,4 +1,3 @@
-
 import CompaniesPage from "../components/comapanies";
 import DashboardLayout from "../layout/dashboard";
 

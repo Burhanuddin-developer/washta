@@ -11,12 +11,10 @@ const Data = Array.from({ length: 9 }).map((_, i) => ({
 function PendingCard({ name, avatar, date, location }: { name: string; avatar: string; date: string; location: string }) {
   return (
     <div className="bg-white rounded-xl shadow p-4 flex flex-col gap-2 min-w-[250px] max-w-[320px] border border-gray-200">
-      <div className="flex items-center gap-3 mb-1">
-        <Image src={avatar} alt={name} width={40} height={40} className="rounded-full object-cover" />
-        <div>
-          <div className="font-semibold text-lg leading-tight">{name}</div>
-          <div className="text-xs text-gray-500 mt-0.5">{date}</div>
-        </div>
+      <div className="flex flex-col items-center justify-center mb-1">
+        <Image src={avatar} alt={name} width={40} height={40} className="rounded-full object-cover mb-2" />
+        <div className="font-semibold text-lg leading-tight text-center w-full">{name}</div>
+        <div className="text-xs text-gray-500 mt-0.5 text-center w-full">{date}</div>
       </div>
       <div className="flex items-center text-xs text-gray-600 gap-1 mb-2">
         <span>📍</span>
@@ -33,12 +31,14 @@ function PendingCard({ name, avatar, date, location }: { name: string; avatar: s
 
 export default function Pending() {
   return (
-    <div className="min-h-screen bg-[#f5f6fa] p-4">
-        <h1 className='text-2xl font-semibold mb-2'>Pending Application</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:w-3xl">
-        {Data.map((item) => (
-          <PendingCard key={item.id} {...item} />
-        ))}
+    <div className="min-h-screen bg-[#f5f6fa] p-2 sm:p-4">
+      <h1 className='text-2xl font-semibold mb-2 text-center sm:text-left'>Pending Application</h1>
+      <div className="w-full overflow-x-auto">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:w-3xl min-w-[260px]">
+          {Data.map((item) => (
+            <PendingCard key={item.id} {...item} />
+          ))}
+        </div>
       </div>
     </div>
   );
