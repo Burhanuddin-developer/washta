@@ -25,17 +25,17 @@ const menu = [
   {
     label: 'Customer Service', icon: <FaRegCommentDots />, collapsible: true, children: [
       { label: 'Buyer', href: '/Buyer' },
-      { label: 'Seller', href: '/customer-service/subitem-2' },
+      { label: 'Seller', href: '/Seller' },
     ]
   },
-  { label: 'Send Notification', icon: <FaRegBell />, href: '/send-notification' },
-  { label: 'Sales', icon: <FaRegChartBar />, href: '/sales' },
-  { label: 'Service Fee', icon: <FaRegMoneyBillAlt />, href: '/service-fee' },
-  { label: 'Promo Code', icon: <FaRegIdBadge />, href: '/promo-code' },
+  { label: 'Send Notification', icon: <FaRegBell />, href: '/SendNotification' },
+  { label: 'Sales', icon: <FaRegChartBar />, href: '/Sales' },
+  { label: 'Service Fee', icon: <FaRegMoneyBillAlt />, href: '/ServiceFee' },
+  { label: 'Promo Code', icon: <FaRegIdBadge />, href: '/PromoCode' },
 ];
 
 const bottomMenu = [
-  { label: 'Add Agent', icon: <FaRegPlusSquare />, href: '/add-agent' },
+  { label: 'Add Agent', icon: <FaRegPlusSquare />, href: '/Agent' },
   { label: 'Language: En', icon: <FaLanguage />, href: '/language' },
   { label: 'Logout', icon: <FaSignOutAlt />, href: '/logout' },
 ];
