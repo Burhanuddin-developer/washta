@@ -4,9 +4,11 @@ import {FaChevronDown, FaChevronUp , FaRegClipboard, FaRegClock, FaRegUser, FaRe
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { it } from 'node:test';
 
 const menu = [
   { label: 'Dashboard', icon: <FaRegClipboard />, href: '/Dashboard' },
+   { label: 'Chat Support', icon: <FaRegIdBadge />, href: '/ChatSupport' },
   {
     label: 'Applications', icon: <FaRegClipboard />, collapsible: true, children: [
       { label: 'Pending', href: '/Pending' },
@@ -36,6 +38,7 @@ const menu = [
 
 const bottomMenu = [
   { label: 'Add Agent', icon: <FaRegPlusSquare />, href: '/Agent' },
+   { label: 'Edit Profile', icon: <FaRegUser />, href: '/edit-profile' },
   { label: 'Language: En', icon: <FaLanguage />, href: '/language' },
   { label: 'Logout', icon: <FaSignOutAlt />, href: '/logout' },
 ];
@@ -59,21 +62,36 @@ export default function Sidebar() {
 
   if (role === 'agent') {
     filteredMenu = menu.filter(item =>
-      item.label === 'Dashboard' || item.label === 'Job History'
+      item.label === 'Dashboard' ||
+      item.label === 'Chat Support' ||
+      item.label === 'Sales' ||
+      item.label === 'Service Fee' ||
+      item.label === 'Promo Code'
     );
-    filteredBottomMenu = bottomMenu.filter(item =>
-      item.label === 'Add Agent' || item.label === 'Logout'
+   filteredBottomMenu = bottomMenu.filter(item =>
+    item.label === 'Edit Profile' ||
+    item.label === 'Language: En' ||
+      item.label === 'Logout'
     );
-  } else if (role === 'seller') {
+  } else if (role === 'admin') {
     filteredMenu = menu.filter(item =>
-      item.label === 'Dashboard' || item.label === 'Sales'
+      item.label === 'Dashboard' ||
+      item.label === 'Applications' ||
+      item.label === 'Job History' ||
+      item.label === 'Service Timing' ||
+      item.label === 'Buyer Information' ||
+      item.label === 'Customer Service' ||
+      item.label === 'Send Notification' ||
+      item.label === 'Sales' ||
+      item.label === 'Service Fee' ||
+      item.label === 'Promo Code'
     );
     filteredBottomMenu = bottomMenu.filter(item =>
+      item.label === 'Add Agent' ||
+      item.label === 'Language: En' ||
       item.label === 'Logout'
     );
   }
-  // admin sees all
-
   const handleToggle = (label: string) => {
     setOpen((prev) => ({ ...prev, [label]: !prev[label] }));
   };

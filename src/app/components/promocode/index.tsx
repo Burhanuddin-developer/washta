@@ -14,8 +14,8 @@ export default function PromoCode() {
 
   return (
     <div className="min-h-screen bg-[#f6f7ff] flex flex-col p-2 sm:p-4">
-      <div className="flex flex-col sm:flex-row sm:justify-between mb-4 w-full ">
-        <h1 className="text-2xl font-medium text-gray-800 sm:ml-6 text-center sm:text-left">Promo Code</h1>
+      <div className="flex flex-col sm:flex-row sm:justify-between mb-4 w-full">
+        <h1 className="text-2xl font-medium text-gray-800 sm:ml-6 w-full text-center sm:text-left">Promo Code</h1>
         <div className="flex items-center gap-2 w-full">
           <span className="text-sm font-medium text-gray-500">Specific Customers</span>
           <label className="inline-flex relative items-center cursor-pointer">
