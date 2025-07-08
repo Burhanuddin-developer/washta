@@ -6,14 +6,16 @@ import { useEffect } from 'react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-//   const router = useRouter();
+  const router = useRouter();
 
-//   useEffect(() => {
-//     const isAuth = localStorage.getItem('auth');
-//     if (!isAuth) {
-//       router.push('/login');
-//     }
-//   }, [pathname, router]);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const role = localStorage.getItem('role');
+      if (!role) {
+        router.push('/Login');
+      }
+    }
+  }, [pathname, router]);
 
   return (
     <div className="flex">

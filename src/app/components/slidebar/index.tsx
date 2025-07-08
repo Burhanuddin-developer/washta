@@ -1,9 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {FaChevronDown, FaChevronUp , FaRegClipboard, FaRegClock, FaRegUser, FaRegBell, FaRegMoneyBillAlt, FaRegIdBadge, FaRegCommentDots, FaRegChartBar, FaRegPlusSquare, FaRegFlag, FaSignOutAlt, FaLanguage } from 'react-icons/fa';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const menu = [
   { label: 'Dashboard', icon: <FaRegClipboard />, href: '/Dashboard' },
@@ -43,10 +43,46 @@ const bottomMenu = [
 export default function Sidebar() {
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [role, setRole] = useState<string | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setRole(localStorage.getItem('role'));
+    }
+  }, []);
+
+  // Define filtered menu and bottomMenu based on role
+  let filteredMenu = menu;
+  let filteredBottomMenu = bottomMenu;
+
+  if (role === 'agent') {
+    filteredMenu = menu.filter(item =>
+      item.label === 'Dashboard' || item.label === 'Job History'
+    );
+    filteredBottomMenu = bottomMenu.filter(item =>
+      item.label === 'Add Agent' || item.label === 'Logout'
+    );
+  } else if (role === 'seller') {
+    filteredMenu = menu.filter(item =>
+      item.label === 'Dashboard' || item.label === 'Sales'
+    );
+    filteredBottomMenu = bottomMenu.filter(item =>
+      item.label === 'Logout'
+    );
+  }
+  // admin sees all
 
   const handleToggle = (label: string) => {
     setOpen((prev) => ({ ...prev, [label]: !prev[label] }));
+  };
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    localStorage.removeItem('role');
+    localStorage.removeItem('email');
+    router.push('/Login');
   };
 
   return (
@@ -85,7 +121,7 @@ export default function Sidebar() {
           </div>
           <nav>
             <ul className="space-y-1">
-              {menu.map((item, idx) => (
+              {filteredMenu.map((item, idx) => (
                 <li key={item.label}>
                   {item.href && !item.collapsible ? (
                     <Link
@@ -133,15 +169,27 @@ export default function Sidebar() {
           </nav>
         </div>
         <div className="space-y-1 mt-8">
-          {bottomMenu.map((item) => (
-            <Link
-              href={item.href}
-              key={item.label}
-              className={`flex items-center w-full px-3 py-2 rounded transition-colors text-sm font-medium gap-2 hover:bg-gray-200 text-gray-800 ${pathname === item.href ? 'bg-[#a3a3f7] text-white' : ''}`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span className="flex-1 text-left">{item.label}</span>
-            </Link>
+          {filteredBottomMenu.map((item) => (
+            item.label === 'Logout' ? (
+              <a
+                href="/Login"
+                key={item.label}
+                onClick={handleLogout}
+                className={`flex items-center w-full px-3 py-2 rounded transition-colors text-sm font-medium gap-2 hover:bg-gray-200 text-gray-800 ${pathname === item.href ? 'bg-[#a3a3f7] text-white' : ''}`}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span className="flex-1 text-left">{item.label}</span>
+              </a>
+            ) : (
+              <Link
+                href={item.href}
+                key={item.label}
+                className={`flex items-center w-full px-3 py-2 rounded transition-colors text-sm font-medium gap-2 hover:bg-gray-200 text-gray-800 ${pathname === item.href ? 'bg-[#a3a3f7] text-white' : ''}`}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span className="flex-1 text-left">{item.label}</span>
+              </Link>
+            )
           ))}
         </div>
       </aside>
