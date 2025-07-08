@@ -38,7 +38,7 @@ const menu = [
 
 const bottomMenu = [
   { label: 'Add Agent', icon: <FaRegPlusSquare />, href: '/Agent' },
-   { label: 'Edit Profile', icon: <FaRegUser />, href: '/edit-profile' },
+   { label: 'Edit Profile', icon: <FaRegUser />, href: '/EditProfile' },
   { label: 'Language: En', icon: <FaLanguage />, href: '/language' },
   { label: 'Logout', icon: <FaSignOutAlt />, href: '/logout' },
 ];
