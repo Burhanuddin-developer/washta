@@ -1,10 +1,11 @@
-import Pending from "../components/pending";
-import DashboardLayout from "../layout/dashboard";
 
+import App from "next/app";
+import DashboardLayout from "../layout/dashboard";
+import Approved from "../components/approved";
 export default function ApprovedPage() {
   return (
        <DashboardLayout>
-            <Pending/>
+      <Approved/>
        </DashboardLayout>
   );
 }

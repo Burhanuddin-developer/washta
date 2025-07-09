@@ -4,6 +4,7 @@ import AdminDashboard from '../components/adminDashboard';
 import AgentDashboard from '../components/agentDashboard';
 import { Header } from '../components/header';
 import DashboardLayout from '../layout/dashboard';
+import Notification from '../components/notification';
 
 export default function DashboardPage() {
   const [role, setRole] = useState<string | null>(null);
@@ -12,6 +13,10 @@ export default function DashboardPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setRole(localStorage.getItem('role'));
+      if (localStorage.getItem('showNotification') === 'true') {
+        setShowNotifications(true);
+        localStorage.removeItem('showNotification');
+      }
     }
   }, []);
 
@@ -32,8 +37,9 @@ export default function DashboardPage() {
 
   return (
     <DashboardLayout>
-      {headerTitle}
-      {dashboardContent}
+    
+      {showNotifications ? <Header title="Notifications" /> : headerTitle}
+      {showNotifications ? <Notification /> : dashboardContent}
     </DashboardLayout>
   );
 }

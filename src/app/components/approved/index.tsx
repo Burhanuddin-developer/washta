@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Data = Array.from({ length: 9 }).map((_, i) => ({
   id: i,
@@ -9,7 +9,6 @@ const Data = Array.from({ length: 9 }).map((_, i) => ({
   date: '16 May 2024 At 10:00 AM',
   location: 'B1, XYZ Mall Parking, Dubai , UAE',
 }));
-
 const signatories = [
   {
     name: 'John Doe',
@@ -24,7 +23,6 @@ const signatories = [
     avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
   },
 ];
-
 function DetailsModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   if (!open) return null;
   return (
@@ -76,21 +74,19 @@ function DetailsModal({ open, onClose }: { open: boolean; onClose: () => void })
               <button className="text-gray-400 hover:text-gray-700 text-lg" title="Expand"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M4 4h7M4 4v7M4 4l6 6M20 20h-7M20 20v-7M20 20l-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
             </div>
             <div className="flex-1 bg-[#f5f6fa] rounded-lg border border-[#e6e6f0] min-h-[120px] flex items-center justify-center relative">
-              <button className="absolute top-2 right-2 text-[#7c81f7] hover:text-[#6366f1] bg-white rounded-full p-1 shadow" title="Download"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
-              {/* Document preview or icon can go here */}
+           <button className="absolute top-2 right-2 text-[#7c81f7] hover:text-[#6366f1] bg-white rounded-full p-1 shadow" title="Download"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
             </div>
           </div>
         </div>
-          <div className="flex flex-col sm:flex-row gap-5 md:gap-50 mt-4  x-auto ">
-              <button className="flex-1 border border-gray-300 rounded py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Reject Request</button>
-              <button className="flex-1 rounded py-2 text-sm font-medium text-white bg-[#7c81f7] hover:bg-[#6366f1]">Approve Request &gt;</button>
+             <div className="flex flex-col sm:flex-row gap-2 mt-4 md:pl-100">
+              <button className="flex-1 rounded py-2 text-sm font-medium text-white bg-[#7c81f7] hover:bg-[#6366f1]">Terminate Seller &gt;</button>
             </div>
       </div>
     </div>
-  ); 
+  );
 }
 
-function PendingCard({ name, avatar, date, location, onView}: { name: string; avatar: string; date: string; location: string, onView: () => void  }) {
+function ApprovedCard({ name, avatar, date, location, onView}: { name: string; avatar: string; date: string; location: string, onView: () => void  }) {
   return (
     <div className="bg-white rounded-xl shadow p-4 flex flex-col gap-2 min-w-[250px] max-w-[320px] border border-gray-200">
       <div className="flex flex-col items-center justify-center mb-1">
@@ -103,23 +99,20 @@ function PendingCard({ name, avatar, date, location, onView}: { name: string; av
         <span>{location}</span>
       </div>
       <button className="border border-gray-400 rounded w-full py-1 text-sm font-medium mb-2 hover:bg-gray-50" onClick={onView}>View Documents</button>
-      <div className="flex gap-2">
-        <button className="flex-1 border border-gray-300 rounded py-1 text-sm font-medium text-gray-700 hover:bg-gray-100">Reject</button>
-        <button className="flex-1 rounded py-1 text-sm font-medium text-white bg-[#a3a3f7] hover:bg-[#8181e6]">Accept</button>
-      </div>
     </div>
   );
 }
 
-export default function Pending() {
+export default function Approved() {
   const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#f5f6fa] p-2 sm:p-4">
-      <h1 className='text-2xl font-semibold mb-2 text-center sm:text-left'>Pending Application</h1>
+      <h1 className='text-2xl font-semibold mb-2 text-center sm:text-left'>Approved Application</h1>
       <div className="w-full overflow-x-auto">
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:w-3xl min-w-[260px]">
           {Data.map((item) => (
-            <PendingCard key={item.id} {...item} onView={() => setModalOpen(true)} />
+            <ApprovedCard key={item.id} {...item} onView={() => setModalOpen(true)} />
           ))}
         </div>
       </div>

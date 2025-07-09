@@ -1,6 +1,7 @@
 "use client";
 import { FaBell } from "react-icons/fa";
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
   title?: string;
@@ -25,6 +26,7 @@ export function Header({
   notifications = [],
 }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const router = useRouter();
   // Close dropdown when clicking outside
   React.useEffect(() => {
     if (!showNotifications) return;
@@ -69,7 +71,20 @@ export function Header({
                 ))}
               </div>
               <div className="mt-4 text-center">
-                <a href="#" className="text-[#7c81f7] text-sm font-medium hover:underline">See All Customer Service Requests &gt;</a>
+                <a
+                  href="/Notifications"
+                  className="text-[#7c81f7] text-sm font-medium hover:underline"
+                  onClick={e => {
+                    e.preventDefault();
+                    setShowNotifications(false);
+                    if (typeof window !== 'undefined') {
+                      localStorage.setItem('showNotification', 'true');
+                    }
+                    router.push('/Dashboard');
+                  }}
+                >
+                  See All Customer Service Requests &gt;
+                </a>
               </div>
             </div>
           )}
