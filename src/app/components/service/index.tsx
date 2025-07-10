@@ -1,5 +1,58 @@
 "use client";
 import { useState } from 'react';
+import Image from "next/image";
+
+// Mock providers for selection
+const mockProviders = Array.from({ length: 8 }).map((_, i) => ({
+  id: i,
+  name: 'Quick Car Wash',
+  address: 'B 102, 123 street, Dubai, UAE',
+  logo: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=64&h=64',
+}));
+
+function ServiceProviderSelectModal({ open, onClose, providers, selected, onSelect }: any) {
+  const [search, setSearch] = useState("");
+  const filtered = providers.filter((p: any) =>
+    p.name.toLowerCase().includes(search.toLowerCase()) ||
+    p.address.toLowerCase().includes(search.toLowerCase())
+  );
+  return open ? (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-2xl shadow-xl p-4 w-full max-w-2xl mx-2 relative animate-fade-in flex flex-col max-h-[90vh]">
+        <input
+          className="border border-gray-300 rounded-lg px-4 py-2 mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+          placeholder="Search by service provider"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <div className="flex-1 overflow-y-auto pr-1 mb-4">
+          {filtered.map((p: any) => (
+            <label
+              key={p.id}
+              className={`flex items-center gap-3 p-3 mb-3 rounded-xl border ${selected.includes(p.id) ? 'border-[#a3a3f7] bg-[#f8f8ff]' : 'border-gray-200 bg-white'} cursor-pointer transition-all`}
+            >
+              <Image src={p.logo} alt={p.name} width={40} height={40} className="rounded object-cover" />
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-base leading-tight">{p.name}</div>
+                <div className="font-medium text-xs">{p.address}</div>
+              </div>
+              <input
+                type="checkbox"
+                checked={selected.includes(p.id)}
+                onChange={() => onSelect(p.id)}
+                className="w-5 h-5 accent-[#7c81f7] rounded border-gray-300"
+              />
+            </label>
+          ))}
+        </div>
+        <div className="flex justify-end gap-2 mt-2">
+          <button className="px-4 py-2 rounded border border-gray-300 text-gray-700 bg-white" onClick={onClose}>Cancel</button>
+          <button className="px-4 py-2 rounded bg-[#7c81f7] text-white font-medium hover:bg-[#6366f1]" onClick={onClose}>Done &nbsp;→</button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+}
 
 export default function Service() {
   const [specificProvider, setSpecificProvider] = useState(false);
@@ -9,12 +62,23 @@ export default function Service() {
   const [applyPerService, setApplyPerService] = useState(false);
   const [applyPerInvoice, setApplyPerInvoice] = useState(true);
   const [status, setStatus] = useState(true);
+  const [providerModalOpen, setProviderModalOpen] = useState(false);
+  const [selectedProviders, setSelectedProviders] = useState<number[]>([]);
+
+  const handleSelectProvider = (id: number) => {
+    setSelectedProviders((prev) =>
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
+    );
+  };
+  const handleRemoveProvider = (id: number) => {
+    setSelectedProviders((prev) => prev.filter((pid) => pid !== id));
+  };
 
   return (
     <div className="min-h-screen bg-[#f6f7ff] flex flex-col p-2 sm:p-4">
       <div className="flex flex-col sm:flex-row sm:justify-between mb-4 w-full">
         <h1 className="text-2xl font-medium text-gray-800 w-full ml-6">Service Fee</h1>
-        <div className="flex items-center gap-2 w-full  ">
+        <div className="flex items-center gap-2 w-full">
           <span className="text-sm font-medium text-gray-500">Specific Service Provider</span>
           <label className="inline-flex relative items-center cursor-pointer">
             <input type="checkbox" checked={specificProvider} onChange={() => setSpecificProvider(v => !v)} className="sr-only peer" />
@@ -27,14 +91,32 @@ export default function Service() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
           <span className="text-xs text-gray-500">Manage Service Fee for all service providers or specific one
             <br />
-            <span className="text-gray-700 font-semibold">Service Providers:All</span>
+            <span className="text-gray-700 font-semibold">Service Providers:</span>
           </span>
+            {/* Show selected customers as pills */}
+        {selectedProviders.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {mockProviders.filter(c => selectedProviders.includes(c.id)).map(c => (
+              <span key={c.id} className="inline-flex items-center bg-[#f6f7ff] border border-gray-300 rounded px-3 py-1 text-sm font-medium text-gray-800">
+                {c.name}
+                <button
+                  className="ml-2 text-gray-400 hover:text-gray-700 text-lg font-bold focus:outline-none"
+                  onClick={() => handleRemoveProvider(c.id)}
+                  aria-label={`Remove ${c.name}`}
+                >
+                  &times;
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
           <button
             className={`px-4 py-2 rounded-lg font-medium shadow transition text-sm mt-2 sm:mt-0 
               ${specificProvider 
                 ? 'bg-[#7c81f7] text-white hover:bg-[#6366f1] cursor-pointer' 
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
             disabled={!specificProvider}
+            onClick={() => setProviderModalOpen(true)}
           >
             Select Service Providers &nbsp;→
           </button>
@@ -75,7 +157,7 @@ export default function Service() {
             </select>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row gap-4 mb-4 items-center">
+        <div className="sm:flex-row mb-4 items-center">
           <div className="flex items-center gap-2 flex-1">
             <input
               type="checkbox"
@@ -85,6 +167,9 @@ export default function Service() {
             />
             <span className="text-sm">Apply per service</span>
           </div>
+          <div className="text-md text-gray-700 text-right">
+            5% VAT (As per the Government Rules*)
+          </div>
           <div className="flex items-center gap-2 flex-1">
             <input
               type="checkbox"
@@ -93,9 +178,6 @@ export default function Service() {
               className="w-4 h-4 rounded border-gray-300 focus:ring-0 accent-[#7c81f7]"
             />
             <span className="text-sm">Apply per invoice</span>
-          </div>
-          <div className="flex-1 text-sm text-gray-700 text-right">
-            5% VAT (As per the Government Rules*)
           </div>
         </div>
         <div className="flex items-center justify-between mt-4">
@@ -107,6 +189,13 @@ export default function Service() {
           </label>
         </div>
       </div>
+      <ServiceProviderSelectModal
+        open={providerModalOpen}
+        onClose={() => setProviderModalOpen(false)}
+        providers={mockProviders}
+        selected={selectedProviders}
+        onSelect={handleSelectProvider}
+      />
     </div>
   );
 }

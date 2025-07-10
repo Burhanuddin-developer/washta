@@ -8,17 +8,17 @@ import Notification from '../components/notification';
 
 export default function DashboardPage() {
   const [role, setRole] = useState<string | null>(null);
-  const [showNotifications, setShowNotifications] = useState(false);
+  // const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setRole(localStorage.getItem('role'));
-      if (localStorage.getItem('showNotification') === 'true') {
-        setShowNotifications(true);
-        localStorage.removeItem('showNotification');
-      }
+      // if (localStorage.getItem('showNotification') === 'true') {
+      //   setShowNotifications(true);
+      //   localStorage.removeItem('showNotification');
+      // }
     }
-  }, []);
+  }, []); 
 
   let dashboardContent = null;
   let headerTitle = null;
@@ -38,8 +38,8 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
     
-      {showNotifications ? <Header title="Notifications" /> : headerTitle}
-      {showNotifications ? <Notification /> : dashboardContent}
+      {/* {showNotifications ? <Header title="Notifications" /> :*/ headerTitle} 
+      {/* {showNotifications ? <Notification /> : */ dashboardContent}
     </DashboardLayout>
   );
 }
