@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
+import ActiveConversations from "../activeConversations";
 
 const requests = [
   {
@@ -11,7 +14,7 @@ const requests = [
     image: "/asset/images/Washta.png",
   },
   {
-    id: "12312",
+    id: "56252",
     name: "Quick Car wash",
     address: "B 102, 123 street, Dubai , UAE",
     service: "Tire Wash",
@@ -20,7 +23,7 @@ const requests = [
     image: "/asset/images/Washta.png",
   },
   {
-    id: "12312",
+    id: "89152",
     name: "Quick Car wash",
     address: "B 102, 123 street, Dubai , UAE",
     service: "Tire Wash",
@@ -87,6 +90,7 @@ function DonutChart({ data, colors }: { data: number[]; colors: string[] }) {
 }
 
 export default function ChatSupportDashboard() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-[#f6f7fb] flex flex-col gap-6 p-2 sm:p-4 w-full max-w-4xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
@@ -139,7 +143,11 @@ export default function ChatSupportDashboard() {
         </div>
         <div className="flex flex-col gap-4 w-full">
           {requests.map((req, i) => (
-            <div key={i} className="flex flex-col sm:flex-row items-center bg-[#f9f9fb] rounded-lg p-3 gap-2 sm:gap-4 shadow-sm w-full">
+            <div
+              key={i}
+              className="flex flex-col sm:flex-row items-center bg-[#f9f9fb] rounded-lg p-3 gap-2 sm:gap-4 shadow-sm w-full cursor-pointer hover:bg-[#ececff]"
+              onClick={() => router.push(`/Chat?requestId=${req.id}`)}
+            >
               <img src={req.image} alt={req.name} className="w-14 h-14 rounded-lg object-cover mb-2 sm:mb-0" />
               <div >
                 <div className="font-semibold text-base">{req.name}</div>
